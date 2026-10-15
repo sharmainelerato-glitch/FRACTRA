@@ -23,11 +23,23 @@ CLERK_AUTHORIZED_PARTIES = [x.strip() for x in os.getenv("CLERK_AUTHORIZED_PARTI
 clerk_client = Clerk(bearer_auth=CLERK_SECRET_KEY) if CLERK_SECRET_KEY else None
 app = Flask(__name__)
 CORS(app)
-PUBLICAI_API_KEY = os.getenv("PUBLICAI_API_KEY")
 
-PUBLICAI_BASE_URL = "https://api.publicai.co/v1"
+PUBLICAI_API_KEY = (
+    os.getenv("LLM_API_KEY")
+    or os.getenv("PUBLICAI_API_KEY")
+    or ""
+).strip()
 
-APERTUS_MODEL = "swiss-ai/apertus-8b-instruct"
+
+PUBLICAI_BASE_URL = os.getenv(
+    "LLM_BASE_URL",
+    "https://api.publicai.co/v1"
+).rstrip("/")
+
+APERTUS_MODEL = os.getenv(
+    "LLM_NAME",
+    os.getenv("APERTUS_MODEL", "swiss-ai/apertus-v1.5-8b")
+)
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "data"
