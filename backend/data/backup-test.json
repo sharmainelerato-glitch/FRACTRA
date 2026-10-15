@@ -1,0 +1,51 @@
+{
+  "organization": {
+    "id": "backup-test",
+    "name": "Backup test",
+    "type": "test",
+    "demo": false,
+    "legacy_pre_clerk": true
+  },
+  "systems": [
+    {
+      "id": "primary-power",
+      "name": "Primary Power",
+      "category": "test",
+      "criticality": 5,
+      "standby": false
+    },
+    {
+      "id": "backup-power",
+      "name": "Backup Power",
+      "category": "test",
+      "criticality": 5,
+      "standby": true,
+      "max_runtime_minutes": 60
+    },
+    {
+      "id": "network",
+      "name": "network",
+      "category": "test",
+      "criticality": 5,
+      "standby": false
+    }
+  ],
+  "dependencies": [
+    {
+      "source": "primary-power",
+      "target": "network",
+      "type": "service",
+      "failure_effect": "failed",
+      "delay_minutes": 1,
+      "requirement_group": "network-power"
+    },
+    {
+      "source": "backup-power",
+      "target": "network",
+      "type": "power",
+      "failure_effect": "failed",
+      "delay_minutes": 1,
+      "requirement_group": "network-power"
+    }
+  ]
+}

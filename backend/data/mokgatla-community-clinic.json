@@ -1,0 +1,119 @@
+{
+  "dependencies": [
+    {
+      "delay_minutes": 0,
+      "failure_effect": "failed",
+      "requirement_group": "power",
+      "source": "fuel-supply",
+      "target": "backup-generator",
+      "type": "dependency"
+    },
+    {
+      "delay_minutes": 0,
+      "failure_effect": "failed",
+      "requirement_group": "power",
+      "source": "backup-generator",
+      "target": "local-network",
+      "type": "dependency"
+    },
+    {
+      "delay_minutes": 0,
+      "failure_effect": "failed",
+      "requirement_group": "it",
+      "source": "local-network",
+      "target": "patient-records",
+      "type": "dependency"
+    },
+    {
+      "delay_minutes": 0,
+      "failure_effect": "failed",
+      "requirement_group": "it",
+      "source": "local-network",
+      "target": "pharmacy-access",
+      "type": "dependency"
+    },
+    {
+      "delay_minutes": 0,
+      "failure_effect": "failed",
+      "requirement_group": "power",
+      "source": "human-system-1791076214665",
+      "target": "local-network",
+      "type": "dependency"
+    },
+    {
+      "source": "local-network",
+      "target": "human-system-1791076216733",
+      "type": "service",
+      "failure_effect": "degraded",
+      "delay_minutes": 0
+    }
+  ],
+  "organization": {
+    "demo": false,
+    "id": "mokgatla-community-clinic",
+    "name": "Mokgatla Community Clinic",
+    "type": "Community healthcare clinic",
+    "model_source": "human_reviewed_apertus_draft",
+    "created_at": "2026-10-04T01:17:24.412528Z",
+    "legacy_pre_clerk": true
+  },
+  "systems": [
+    {
+      "category": "Power",
+      "criticality": 3,
+      "id": "backup-generator",
+      "max_runtime_minutes": 180,
+      "name": "Backup Generator",
+      "source_evidence": "Backup Generator is a standby alternative power source for the Local Network when Grid Electricity is unavailable.",
+      "standby": true
+    },
+    {
+      "category": "Logistics",
+      "criticality": 4,
+      "id": "fuel-supply",
+      "name": "Fuel Supply",
+      "source_evidence": "The Backup Generator depends on Fuel Supply.",
+      "standby": false
+    },
+    {
+      "category": "IT",
+      "criticality": 4,
+      "id": "local-network",
+      "name": "Local Network",
+      "source_evidence": "Grid Electricity normally provides power to the Local Network.",
+      "standby": false
+    },
+    {
+      "category": "IT",
+      "criticality": 4,
+      "id": "patient-records",
+      "name": "Patient Records",
+      "source_evidence": "Patient Records depends on the Local Network.",
+      "standby": false
+    },
+    {
+      "category": "IT",
+      "criticality": 4,
+      "id": "pharmacy-access",
+      "name": "Pharmacy Access",
+      "source_evidence": "Pharmacy Access depends on the Local Network.",
+      "standby": false
+    },
+    {
+      "category": "Power",
+      "criticality": 3,
+      "id": "human-system-1791076214665",
+      "name": "Grid Electricity",
+      "source_evidence": "Added by human reviewer",
+      "standby": false
+    },
+    {
+      "category": "Emergency Services",
+      "criticality": 5,
+      "id": "human-system-1791076216733",
+      "name": "Emergency Treatment",
+      "source_evidence": "Added by human reviewer",
+      "standby": false
+    }
+  ]
+}

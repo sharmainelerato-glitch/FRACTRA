@@ -1,0 +1,22 @@
+{
+  "id": "st-aurelia-reality-42903a-314c",
+  "parent_model_id": "st-aurelia",
+  "incident_id": "inc-e0bf3642903a",
+  "created_at": "2026-10-03T20:44:50.008877Z",
+  "changes": [
+    {
+      "proposal_id": "proposal-89b6465487",
+      "decision": "accepted",
+      "change": {
+        "field": "delay_minutes",
+        "kind": "dependency_field",
+        "source": "authentication",
+        "target": "patient-records",
+        "value": 0
+      },
+      "decided_at": "2026-10-03T20:44:43.352563Z",
+      "source": "human_review"
+    }
+  ],
+  "model_path": "st-aurelia-reality-42903a-314c.json"
+}

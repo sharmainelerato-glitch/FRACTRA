@@ -1,0 +1,11 @@
+{
+  "organization": {
+    "id": "hospital-a-private-test",
+    "name": "Hospital A Private Test",
+    "type": "Hospital",
+    "demo": false,
+    "clerk_org_id": "org_3KEGf4xUjpniC00q6vn93NO8gHa"
+  },
+  "systems": [],
+  "dependencies": []
+}

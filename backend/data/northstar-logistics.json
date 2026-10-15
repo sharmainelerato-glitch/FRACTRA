@@ -1,0 +1,45 @@
+{
+  "organization": {
+    "id": "northstar-logistics",
+    "name": "Northstar Logistics",
+    "type": "Logistics",
+    "demo": false,
+    "legacy_pre_clerk": true
+  },
+  "systems": [
+    {
+      "id": "internet-provider",
+      "name": "Internet Provider",
+      "category": "technology",
+      "criticality": 5
+    },
+    {
+      "id": "authentication",
+      "name": "Authentication",
+      "category": "Security",
+      "criticality": 5
+    },
+    {
+      "id": "dispatch-system",
+      "name": "Dispatch System",
+      "category": "Help",
+      "criticality": 5
+    }
+  ],
+  "dependencies": [
+    {
+      "source": "internet-provider",
+      "target": "authentication",
+      "type": "network",
+      "failure_effect": "failed",
+      "delay_minutes": 2
+    },
+    {
+      "source": "authentication",
+      "target": "dispatch-system",
+      "type": "service",
+      "failure_effect": "failed",
+      "delay_minutes": 3
+    }
+  ]
+}

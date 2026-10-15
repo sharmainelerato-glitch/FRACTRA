@@ -1,0 +1,148 @@
+{
+  "id": "inc-27087e91170a",
+  "model_id": "st-aurelia",
+  "organization": {
+    "id": "st-aurelia",
+    "name": "St. Aurelia Hospital"
+  },
+  "name": "Hospital power outage",
+  "type": "power-outage",
+  "status": "ended",
+  "started_at": "2026-10-03T17:49:58.840665Z",
+  "ended_at": "2026-10-03T18:53:39.942263Z",
+  "note": "Utility power loss confirmed",
+  "systems_snapshot": [
+    {
+      "id": "grid-power",
+      "name": "Power Grid",
+      "category": "infrastructure",
+      "criticality": 5
+    },
+    {
+      "id": "backup-generator",
+      "name": "Backup Generator",
+      "category": "infrastructure",
+      "criticality": 5
+    },
+    {
+      "id": "fuel-supply",
+      "name": "Fuel Supply",
+      "category": "supply",
+      "criticality": 4
+    },
+    {
+      "id": "network",
+      "name": "Network",
+      "category": "technology",
+      "criticality": 5
+    },
+    {
+      "id": "authentication",
+      "name": "Authentication Service",
+      "category": "technology",
+      "criticality": 5
+    },
+    {
+      "id": "patient-records",
+      "name": "Patient Records",
+      "category": "clinical",
+      "criticality": 5
+    },
+    {
+      "id": "pharmacy",
+      "name": "Pharmacy",
+      "category": "clinical",
+      "criticality": 4
+    },
+    {
+      "id": "icu",
+      "name": "ICU",
+      "category": "clinical",
+      "criticality": 5
+    },
+    {
+      "id": "emergency",
+      "name": "Emergency Department",
+      "category": "clinical",
+      "criticality": 5
+    },
+    {
+      "id": "backup-power",
+      "name": "Backup power",
+      "category": "primary power",
+      "criticality": 5
+    },
+    {
+      "id": "primary-power",
+      "name": "primary power",
+      "category": "test",
+      "criticality": 5
+    }
+  ],
+  "observations": [
+    {
+      "id": "obs-b8fd23a99bd2",
+      "timestamp": "2026-10-03T17:54:59.787056Z",
+      "system_id": "grid-power",
+      "system_name": "Power Grid",
+      "state": "failed",
+      "note": "",
+      "source": "human_confirmed"
+    },
+    {
+      "id": "obs-b6cd28d8d4d0",
+      "timestamp": "2026-10-03T18:48:20.530169Z",
+      "system_id": "grid-power",
+      "system_name": "Power Grid",
+      "state": "failed",
+      "note": "",
+      "source": "human_confirmed"
+    },
+    {
+      "id": "obs-93a7a1388464",
+      "timestamp": "2026-10-03T18:48:42.496553Z",
+      "system_id": "grid-power",
+      "system_name": "Power Grid",
+      "state": "contained",
+      "note": "",
+      "source": "human_confirmed"
+    },
+    {
+      "id": "obs-218f81396614",
+      "timestamp": "2026-10-03T18:49:05.613535Z",
+      "system_id": "grid-power",
+      "system_name": "Power Grid",
+      "state": "temporary_service",
+      "note": "",
+      "source": "human_confirmed"
+    },
+    {
+      "id": "obs-25c7dcd0c765",
+      "timestamp": "2026-10-03T18:49:16.172300Z",
+      "system_id": "grid-power",
+      "system_name": "Power Grid",
+      "state": "restored",
+      "note": "",
+      "source": "human_confirmed"
+    },
+    {
+      "id": "obs-c2f339d8ecce",
+      "timestamp": "2026-10-03T18:49:22.009650Z",
+      "system_id": "grid-power",
+      "system_name": "Power Grid",
+      "state": "verified",
+      "note": "",
+      "source": "human_confirmed"
+    }
+  ],
+  "actions": [
+    {
+      "id": "act-2bf164e230f2",
+      "timestamp": "2026-10-03T18:49:54.061141Z",
+      "description": "facilities team isolated the affected power circuit.",
+      "note": "",
+      "source": "human_recorded"
+    }
+  ],
+  "legacy_pre_clerk": true
+}

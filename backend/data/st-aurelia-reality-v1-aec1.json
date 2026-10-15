@@ -1,0 +1,146 @@
+{
+  "organization": {
+    "id": "st-aurelia-reality-v1-aec1",
+    "name": "St. Aurelia Hospital \u00b7 Reality Branch v1",
+    "type": "healthcare",
+    "demo": true,
+    "parent_model_id": "st-aurelia-reality-38cb21-a5c0",
+    "source_incident_id": "inc-cea71238cb21",
+    "version_type": "iterative_reality_calibration",
+    "created_at": "2026-10-03T22:34:57.191726Z",
+    "calibration_version": 1
+  },
+  "systems": [
+    {
+      "id": "grid-power",
+      "name": "Power Grid",
+      "category": "infrastructure",
+      "criticality": 5
+    },
+    {
+      "id": "backup-generator",
+      "name": "Backup Generator",
+      "category": "infrastructure",
+      "criticality": 5,
+      "standby": true,
+      "max_runtime_minutes": 120
+    },
+    {
+      "id": "fuel-supply",
+      "name": "Fuel Supply",
+      "category": "supply",
+      "criticality": 4
+    },
+    {
+      "id": "network",
+      "name": "Network",
+      "category": "technology",
+      "criticality": 5
+    },
+    {
+      "id": "authentication",
+      "name": "Authentication Service",
+      "category": "technology",
+      "criticality": 5
+    },
+    {
+      "id": "patient-records",
+      "name": "Patient Records",
+      "category": "clinical",
+      "criticality": 5
+    },
+    {
+      "id": "pharmacy",
+      "name": "Pharmacy",
+      "category": "clinical",
+      "criticality": 4
+    },
+    {
+      "id": "icu",
+      "name": "ICU",
+      "category": "clinical",
+      "criticality": 5
+    },
+    {
+      "id": "emergency",
+      "name": "Emergency Department",
+      "category": "clinical",
+      "criticality": 5
+    },
+    {
+      "id": "backup-power",
+      "name": "Backup power",
+      "category": "primary power",
+      "criticality": 5,
+      "standby": true,
+      "max_runtime_minutes": 10
+    },
+    {
+      "id": "primary-power",
+      "name": "primary power",
+      "category": "test",
+      "criticality": 5,
+      "standby": false
+    }
+  ],
+  "dependencies": [
+    {
+      "source": "grid-power",
+      "target": "network",
+      "type": "power",
+      "requirement_group": "network-power",
+      "failure_effect": "failed",
+      "delay_minutes": 1
+    },
+    {
+      "source": "backup-generator",
+      "target": "network",
+      "type": "power",
+      "requirement_group": "network-power",
+      "failure_effect": "failed",
+      "delay_minutes": 1
+    },
+    {
+      "source": "fuel-supply",
+      "target": "backup-generator",
+      "type": "supply",
+      "failure_effect": "failed",
+      "delay_minutes": 120
+    },
+    {
+      "source": "network",
+      "target": "authentication",
+      "type": "network",
+      "failure_effect": "failed",
+      "delay_minutes": 1
+    },
+    {
+      "source": "authentication",
+      "target": "patient-records",
+      "type": "identity",
+      "failure_effect": "failed",
+      "delay_minutes": 0
+    },
+    {
+      "source": "authentication",
+      "target": "pharmacy",
+      "type": "identity",
+      "failure_effect": "degraded",
+      "delay_minutes": 1
+    },
+    {
+      "source": "authentication",
+      "target": "emergency",
+      "type": "identity",
+      "failure_effect": "degraded",
+      "delay_minutes": 1
+    },
+    {
+      "source": "grid-power",
+      "target": "patient-records",
+      "type": "service",
+      "failure_effect": "failed",
+      "delay_minutes": 0
+    }
+  ]
+}

@@ -1,0 +1,416 @@
+{
+  "id": "inc-14e3c53861fc",
+  "model_id": "st-aurelia",
+  "organization": {
+    "id": "st-aurelia",
+    "name": "St. Aurelia Hospital"
+  },
+  "name": "Hospital power outage",
+  "type": "power-outage",
+  "status": "ended",
+  "started_at": "2026-10-03T22:27:03.350755Z",
+  "ended_at": "2026-10-03T22:28:22.523645Z",
+  "note": "",
+  "systems_snapshot": [
+    {
+      "id": "grid-power",
+      "name": "Power Grid",
+      "category": "infrastructure",
+      "criticality": 5
+    },
+    {
+      "id": "backup-generator",
+      "name": "Backup Generator",
+      "category": "infrastructure",
+      "criticality": 5
+    },
+    {
+      "id": "fuel-supply",
+      "name": "Fuel Supply",
+      "category": "supply",
+      "criticality": 4
+    },
+    {
+      "id": "network",
+      "name": "Network",
+      "category": "technology",
+      "criticality": 5
+    },
+    {
+      "id": "authentication",
+      "name": "Authentication Service",
+      "category": "technology",
+      "criticality": 5
+    },
+    {
+      "id": "patient-records",
+      "name": "Patient Records",
+      "category": "clinical",
+      "criticality": 5
+    },
+    {
+      "id": "pharmacy",
+      "name": "Pharmacy",
+      "category": "clinical",
+      "criticality": 4
+    },
+    {
+      "id": "icu",
+      "name": "ICU",
+      "category": "clinical",
+      "criticality": 5
+    },
+    {
+      "id": "emergency",
+      "name": "Emergency Department",
+      "category": "clinical",
+      "criticality": 5
+    },
+    {
+      "id": "backup-power",
+      "name": "Backup power",
+      "category": "primary power",
+      "criticality": 5
+    },
+    {
+      "id": "primary-power",
+      "name": "primary power",
+      "category": "test",
+      "criticality": 5
+    }
+  ],
+  "model_snapshot": {
+    "organization": {
+      "id": "st-aurelia",
+      "name": "St. Aurelia Hospital",
+      "type": "healthcare",
+      "demo": true
+    },
+    "systems": [
+      {
+        "id": "grid-power",
+        "name": "Power Grid",
+        "category": "infrastructure",
+        "criticality": 5
+      },
+      {
+        "id": "backup-generator",
+        "name": "Backup Generator",
+        "category": "infrastructure",
+        "criticality": 5,
+        "standby": true,
+        "max_runtime_minutes": 120
+      },
+      {
+        "id": "fuel-supply",
+        "name": "Fuel Supply",
+        "category": "supply",
+        "criticality": 4
+      },
+      {
+        "id": "network",
+        "name": "Network",
+        "category": "technology",
+        "criticality": 5
+      },
+      {
+        "id": "authentication",
+        "name": "Authentication Service",
+        "category": "technology",
+        "criticality": 5
+      },
+      {
+        "id": "patient-records",
+        "name": "Patient Records",
+        "category": "clinical",
+        "criticality": 5
+      },
+      {
+        "id": "pharmacy",
+        "name": "Pharmacy",
+        "category": "clinical",
+        "criticality": 4
+      },
+      {
+        "id": "icu",
+        "name": "ICU",
+        "category": "clinical",
+        "criticality": 5
+      },
+      {
+        "id": "emergency",
+        "name": "Emergency Department",
+        "category": "clinical",
+        "criticality": 5
+      },
+      {
+        "id": "backup-power",
+        "name": "Backup power",
+        "category": "primary power",
+        "criticality": 5,
+        "standby": true,
+        "max_runtime_minutes": 10
+      },
+      {
+        "id": "primary-power",
+        "name": "primary power",
+        "category": "test",
+        "criticality": 5,
+        "standby": false
+      }
+    ],
+    "dependencies": [
+      {
+        "source": "grid-power",
+        "target": "network",
+        "type": "power",
+        "requirement_group": "network-power",
+        "failure_effect": "failed",
+        "delay_minutes": 1
+      },
+      {
+        "source": "backup-generator",
+        "target": "network",
+        "type": "power",
+        "requirement_group": "network-power",
+        "failure_effect": "failed",
+        "delay_minutes": 1
+      },
+      {
+        "source": "fuel-supply",
+        "target": "backup-generator",
+        "type": "supply",
+        "failure_effect": "failed",
+        "delay_minutes": 120
+      },
+      {
+        "source": "network",
+        "target": "authentication",
+        "type": "network",
+        "failure_effect": "failed",
+        "delay_minutes": 1
+      },
+      {
+        "source": "authentication",
+        "target": "patient-records",
+        "type": "identity",
+        "failure_effect": "failed",
+        "delay_minutes": 1
+      },
+      {
+        "source": "authentication",
+        "target": "pharmacy",
+        "type": "identity",
+        "failure_effect": "degraded",
+        "delay_minutes": 1
+      },
+      {
+        "source": "authentication",
+        "target": "emergency",
+        "type": "identity",
+        "failure_effect": "degraded",
+        "delay_minutes": 1
+      }
+    ]
+  },
+  "prediction_snapshot": {
+    "created_at": "2026-10-03T22:27:35.553787Z",
+    "trigger_system_id": "grid-power",
+    "trigger_timestamp": "2026-10-03T22:27:35.553787Z",
+    "basis": "deterministic_model_at_incident_start",
+    "events": [
+      {
+        "time_minutes": 0,
+        "system": "grid-power",
+        "status": "failed",
+        "caused_by": null,
+        "dependency_type": null,
+        "reason": "Initial disruption"
+      },
+      {
+        "time_minutes": 0,
+        "system": "backup-generator",
+        "status": "activated",
+        "caused_by": "grid-power",
+        "dependency_type": "redundancy",
+        "reason": "Activated as backup provider for network"
+      },
+      {
+        "time_minutes": 120,
+        "system": "backup-generator",
+        "status": "failed",
+        "caused_by": "network",
+        "dependency_type": "capacity",
+        "reason": "Maximum backup runtime exhausted"
+      },
+      {
+        "time_minutes": 121,
+        "system": "network",
+        "status": "failed",
+        "caused_by": "backup-generator",
+        "dependency_type": "power",
+        "reason": "Dependency on backup-generator was lost"
+      },
+      {
+        "time_minutes": 122,
+        "system": "authentication",
+        "status": "failed",
+        "caused_by": "network",
+        "dependency_type": "network",
+        "reason": "Dependency on network was lost"
+      },
+      {
+        "time_minutes": 123,
+        "system": "patient-records",
+        "status": "failed",
+        "caused_by": "authentication",
+        "dependency_type": "identity",
+        "reason": "Dependency on authentication was lost"
+      },
+      {
+        "time_minutes": 123,
+        "system": "pharmacy",
+        "status": "degraded",
+        "caused_by": "authentication",
+        "dependency_type": "identity",
+        "reason": "Dependency on authentication was lost"
+      },
+      {
+        "time_minutes": 123,
+        "system": "emergency",
+        "status": "degraded",
+        "caused_by": "authentication",
+        "dependency_type": "identity",
+        "reason": "Dependency on authentication was lost"
+      }
+    ],
+    "resilience_score": 44,
+    "metrics": {
+      "failed_systems": 5,
+      "degraded_systems": 2,
+      "stable_systems": 4,
+      "cascade_events": 7,
+      "cascade_duration_minutes": 123
+    }
+  },
+  "reality_diff": {
+    "status": "ready",
+    "generated_at": "2026-10-03T22:28:22.524660Z",
+    "trigger_system_id": "grid-power",
+    "trigger_timestamp": "2026-10-03T22:27:35.553787Z",
+    "observed_window_minutes": 0.78,
+    "summary": {
+      "matched": 1,
+      "timing_mismatch": 1,
+      "unexpected_observed": 0,
+      "predicted_not_observed": 0
+    },
+    "items": [
+      {
+        "type": "matched",
+        "system_id": "grid-power",
+        "system_name": "Power Grid",
+        "expected": {
+          "system_id": "grid-power",
+          "status": "failed",
+          "time_minutes": 0.0,
+          "caused_by": null,
+          "dependency_type": null
+        },
+        "observed": {
+          "system_id": "grid-power",
+          "system_name": "Power Grid",
+          "state": "failed",
+          "time_minutes": 0.0,
+          "timestamp": "2026-10-03T22:27:35.553787Z"
+        },
+        "delta_minutes": 0.0,
+        "model_gap": null
+      },
+      {
+        "type": "timing_mismatch",
+        "system_id": "patient-records",
+        "system_name": "Patient Records",
+        "expected": {
+          "system_id": "patient-records",
+          "status": "failed",
+          "time_minutes": 123.0,
+          "caused_by": "authentication",
+          "dependency_type": "identity"
+        },
+        "observed": {
+          "system_id": "patient-records",
+          "system_name": "Patient Records",
+          "state": "failed",
+          "time_minutes": 0.45,
+          "timestamp": "2026-10-03T22:28:02.832315Z"
+        },
+        "delta_minutes": -122.55,
+        "model_gap": "Observed timing/state differed from the model. Review delay, dependency, redundancy, or capacity assumptions."
+      }
+    ],
+    "method": {
+      "prediction": "FRACTRA deterministic engine using immutable incident-start model snapshot",
+      "reality": "human-confirmed failed/degraded observations",
+      "timing_tolerance_minutes": 1.0
+    }
+  },
+  "observations": [
+    {
+      "id": "obs-dde6565da9c4",
+      "timestamp": "2026-10-03T22:27:35.553787Z",
+      "system_id": "grid-power",
+      "system_name": "Power Grid",
+      "state": "failed",
+      "note": "",
+      "source": "human_confirmed"
+    },
+    {
+      "id": "obs-6abf79828e1d",
+      "timestamp": "2026-10-03T22:27:45.621364Z",
+      "system_id": "grid-power",
+      "system_name": "Power Grid",
+      "state": "contained",
+      "note": "",
+      "source": "human_confirmed"
+    },
+    {
+      "id": "obs-b742e849a465",
+      "timestamp": "2026-10-03T22:27:50.633604Z",
+      "system_id": "grid-power",
+      "system_name": "Power Grid",
+      "state": "temporary_service",
+      "note": "",
+      "source": "human_confirmed"
+    },
+    {
+      "id": "obs-7c63a8eec5fb",
+      "timestamp": "2026-10-03T22:27:53.394361Z",
+      "system_id": "grid-power",
+      "system_name": "Power Grid",
+      "state": "restored",
+      "note": "",
+      "source": "human_confirmed"
+    },
+    {
+      "id": "obs-dcd48138aa4e",
+      "timestamp": "2026-10-03T22:27:55.527988Z",
+      "system_id": "grid-power",
+      "system_name": "Power Grid",
+      "state": "verified",
+      "note": "",
+      "source": "human_confirmed"
+    },
+    {
+      "id": "obs-20aed50e9b10",
+      "timestamp": "2026-10-03T22:28:02.832315Z",
+      "system_id": "patient-records",
+      "system_name": "Patient Records",
+      "state": "failed",
+      "note": "",
+      "source": "human_confirmed"
+    }
+  ],
+  "actions": [],
+  "legacy_pre_clerk": true
+}

@@ -1,0 +1,131 @@
+{
+  "id": "inc-c3650363ce1f",
+  "model_id": "st-aurelia",
+  "organization": {
+    "id": "st-aurelia",
+    "name": "St. Aurelia Hospital"
+  },
+  "name": "Hospital power outage",
+  "type": "power-outage",
+  "status": "ended",
+  "started_at": "2026-10-03T19:05:04.031202Z",
+  "ended_at": "2026-10-03T19:05:38.310170Z",
+  "note": "",
+  "systems_snapshot": [
+    {
+      "id": "grid-power",
+      "name": "Power Grid",
+      "category": "infrastructure",
+      "criticality": 5
+    },
+    {
+      "id": "backup-generator",
+      "name": "Backup Generator",
+      "category": "infrastructure",
+      "criticality": 5
+    },
+    {
+      "id": "fuel-supply",
+      "name": "Fuel Supply",
+      "category": "supply",
+      "criticality": 4
+    },
+    {
+      "id": "network",
+      "name": "Network",
+      "category": "technology",
+      "criticality": 5
+    },
+    {
+      "id": "authentication",
+      "name": "Authentication Service",
+      "category": "technology",
+      "criticality": 5
+    },
+    {
+      "id": "patient-records",
+      "name": "Patient Records",
+      "category": "clinical",
+      "criticality": 5
+    },
+    {
+      "id": "pharmacy",
+      "name": "Pharmacy",
+      "category": "clinical",
+      "criticality": 4
+    },
+    {
+      "id": "icu",
+      "name": "ICU",
+      "category": "clinical",
+      "criticality": 5
+    },
+    {
+      "id": "emergency",
+      "name": "Emergency Department",
+      "category": "clinical",
+      "criticality": 5
+    },
+    {
+      "id": "backup-power",
+      "name": "Backup power",
+      "category": "primary power",
+      "criticality": 5
+    },
+    {
+      "id": "primary-power",
+      "name": "primary power",
+      "category": "test",
+      "criticality": 5
+    }
+  ],
+  "observations": [
+    {
+      "id": "obs-cc9b43e09c33",
+      "timestamp": "2026-10-03T19:05:15.251856Z",
+      "system_id": "grid-power",
+      "system_name": "Power Grid",
+      "state": "failed",
+      "note": "",
+      "source": "human_confirmed"
+    },
+    {
+      "id": "obs-8cd15c28cef4",
+      "timestamp": "2026-10-03T19:05:22.565045Z",
+      "system_id": "grid-power",
+      "system_name": "Power Grid",
+      "state": "contained",
+      "note": "",
+      "source": "human_confirmed"
+    },
+    {
+      "id": "obs-aff08d1f7a1c",
+      "timestamp": "2026-10-03T19:05:25.281974Z",
+      "system_id": "grid-power",
+      "system_name": "Power Grid",
+      "state": "temporary_service",
+      "note": "",
+      "source": "human_confirmed"
+    },
+    {
+      "id": "obs-d4e847b0176d",
+      "timestamp": "2026-10-03T19:05:27.343087Z",
+      "system_id": "grid-power",
+      "system_name": "Power Grid",
+      "state": "restored",
+      "note": "",
+      "source": "human_confirmed"
+    },
+    {
+      "id": "obs-6f81554bc552",
+      "timestamp": "2026-10-03T19:05:29.945792Z",
+      "system_id": "grid-power",
+      "system_name": "Power Grid",
+      "state": "verified",
+      "note": "",
+      "source": "human_confirmed"
+    }
+  ],
+  "actions": [],
+  "legacy_pre_clerk": true
+}

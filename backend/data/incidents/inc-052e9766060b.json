@@ -1,0 +1,1928 @@
+{
+  "id": "inc-052e9766060b",
+  "model_id": "st-aurelia",
+  "organization": {
+    "id": "st-aurelia",
+    "name": "St. Aurelia Hospital"
+  },
+  "name": "Hospital power outage",
+  "type": "power-outage",
+  "status": "ended",
+  "started_at": "2026-10-03T22:45:16.277938Z",
+  "ended_at": "2026-10-03T22:45:44.726005Z",
+  "note": "",
+  "systems_snapshot": [
+    {
+      "id": "grid-power",
+      "name": "Power Grid",
+      "category": "infrastructure",
+      "criticality": 5
+    },
+    {
+      "id": "backup-generator",
+      "name": "Backup Generator",
+      "category": "infrastructure",
+      "criticality": 5
+    },
+    {
+      "id": "fuel-supply",
+      "name": "Fuel Supply",
+      "category": "supply",
+      "criticality": 4
+    },
+    {
+      "id": "network",
+      "name": "Network",
+      "category": "technology",
+      "criticality": 5
+    },
+    {
+      "id": "authentication",
+      "name": "Authentication Service",
+      "category": "technology",
+      "criticality": 5
+    },
+    {
+      "id": "patient-records",
+      "name": "Patient Records",
+      "category": "clinical",
+      "criticality": 5
+    },
+    {
+      "id": "pharmacy",
+      "name": "Pharmacy",
+      "category": "clinical",
+      "criticality": 4
+    },
+    {
+      "id": "icu",
+      "name": "ICU",
+      "category": "clinical",
+      "criticality": 5
+    },
+    {
+      "id": "emergency",
+      "name": "Emergency Department",
+      "category": "clinical",
+      "criticality": 5
+    },
+    {
+      "id": "backup-power",
+      "name": "Backup power",
+      "category": "primary power",
+      "criticality": 5
+    },
+    {
+      "id": "primary-power",
+      "name": "primary power",
+      "category": "test",
+      "criticality": 5
+    }
+  ],
+  "model_snapshot": {
+    "organization": {
+      "id": "st-aurelia",
+      "name": "St. Aurelia Hospital",
+      "type": "healthcare",
+      "demo": true
+    },
+    "systems": [
+      {
+        "id": "grid-power",
+        "name": "Power Grid",
+        "category": "infrastructure",
+        "criticality": 5
+      },
+      {
+        "id": "backup-generator",
+        "name": "Backup Generator",
+        "category": "infrastructure",
+        "criticality": 5,
+        "standby": true,
+        "max_runtime_minutes": 120
+      },
+      {
+        "id": "fuel-supply",
+        "name": "Fuel Supply",
+        "category": "supply",
+        "criticality": 4
+      },
+      {
+        "id": "network",
+        "name": "Network",
+        "category": "technology",
+        "criticality": 5
+      },
+      {
+        "id": "authentication",
+        "name": "Authentication Service",
+        "category": "technology",
+        "criticality": 5
+      },
+      {
+        "id": "patient-records",
+        "name": "Patient Records",
+        "category": "clinical",
+        "criticality": 5
+      },
+      {
+        "id": "pharmacy",
+        "name": "Pharmacy",
+        "category": "clinical",
+        "criticality": 4
+      },
+      {
+        "id": "icu",
+        "name": "ICU",
+        "category": "clinical",
+        "criticality": 5
+      },
+      {
+        "id": "emergency",
+        "name": "Emergency Department",
+        "category": "clinical",
+        "criticality": 5
+      },
+      {
+        "id": "backup-power",
+        "name": "Backup power",
+        "category": "primary power",
+        "criticality": 5,
+        "standby": true,
+        "max_runtime_minutes": 10
+      },
+      {
+        "id": "primary-power",
+        "name": "primary power",
+        "category": "test",
+        "criticality": 5,
+        "standby": false
+      }
+    ],
+    "dependencies": [
+      {
+        "source": "grid-power",
+        "target": "network",
+        "type": "power",
+        "requirement_group": "network-power",
+        "failure_effect": "failed",
+        "delay_minutes": 1
+      },
+      {
+        "source": "backup-generator",
+        "target": "network",
+        "type": "power",
+        "requirement_group": "network-power",
+        "failure_effect": "failed",
+        "delay_minutes": 1
+      },
+      {
+        "source": "fuel-supply",
+        "target": "backup-generator",
+        "type": "supply",
+        "failure_effect": "failed",
+        "delay_minutes": 120
+      },
+      {
+        "source": "network",
+        "target": "authentication",
+        "type": "network",
+        "failure_effect": "failed",
+        "delay_minutes": 1
+      },
+      {
+        "source": "authentication",
+        "target": "patient-records",
+        "type": "identity",
+        "failure_effect": "failed",
+        "delay_minutes": 1
+      },
+      {
+        "source": "authentication",
+        "target": "pharmacy",
+        "type": "identity",
+        "failure_effect": "degraded",
+        "delay_minutes": 1
+      },
+      {
+        "source": "authentication",
+        "target": "emergency",
+        "type": "identity",
+        "failure_effect": "degraded",
+        "delay_minutes": 1
+      }
+    ]
+  },
+  "prediction_snapshot": {
+    "created_at": "2026-10-03T22:45:26.413933Z",
+    "trigger_system_id": "grid-power",
+    "trigger_timestamp": "2026-10-03T22:45:26.413933Z",
+    "basis": "deterministic_model_at_incident_start",
+    "events": [
+      {
+        "time_minutes": 0,
+        "system": "grid-power",
+        "status": "failed",
+        "caused_by": null,
+        "dependency_type": null,
+        "reason": "Initial disruption"
+      },
+      {
+        "time_minutes": 0,
+        "system": "backup-generator",
+        "status": "activated",
+        "caused_by": "grid-power",
+        "dependency_type": "redundancy",
+        "reason": "Activated as backup provider for network"
+      },
+      {
+        "time_minutes": 120,
+        "system": "backup-generator",
+        "status": "failed",
+        "caused_by": "network",
+        "dependency_type": "capacity",
+        "reason": "Maximum backup runtime exhausted"
+      },
+      {
+        "time_minutes": 121,
+        "system": "network",
+        "status": "failed",
+        "caused_by": "backup-generator",
+        "dependency_type": "power",
+        "reason": "Dependency on backup-generator was lost"
+      },
+      {
+        "time_minutes": 122,
+        "system": "authentication",
+        "status": "failed",
+        "caused_by": "network",
+        "dependency_type": "network",
+        "reason": "Dependency on network was lost"
+      },
+      {
+        "time_minutes": 123,
+        "system": "patient-records",
+        "status": "failed",
+        "caused_by": "authentication",
+        "dependency_type": "identity",
+        "reason": "Dependency on authentication was lost"
+      },
+      {
+        "time_minutes": 123,
+        "system": "pharmacy",
+        "status": "degraded",
+        "caused_by": "authentication",
+        "dependency_type": "identity",
+        "reason": "Dependency on authentication was lost"
+      },
+      {
+        "time_minutes": 123,
+        "system": "emergency",
+        "status": "degraded",
+        "caused_by": "authentication",
+        "dependency_type": "identity",
+        "reason": "Dependency on authentication was lost"
+      }
+    ],
+    "resilience_score": 44,
+    "metrics": {
+      "failed_systems": 5,
+      "degraded_systems": 2,
+      "stable_systems": 4,
+      "cascade_events": 7,
+      "cascade_duration_minutes": 123
+    }
+  },
+  "reality_diff": {
+    "status": "ready",
+    "generated_at": "2026-10-03T22:45:44.726005Z",
+    "trigger_system_id": "grid-power",
+    "trigger_timestamp": "2026-10-03T22:45:26.413933Z",
+    "observed_window_minutes": 0.31,
+    "summary": {
+      "matched": 1,
+      "timing_mismatch": 1,
+      "unexpected_observed": 0,
+      "predicted_not_observed": 0
+    },
+    "items": [
+      {
+        "type": "matched",
+        "system_id": "grid-power",
+        "system_name": "Power Grid",
+        "expected": {
+          "system_id": "grid-power",
+          "status": "failed",
+          "time_minutes": 0.0,
+          "caused_by": null,
+          "dependency_type": null
+        },
+        "observed": {
+          "system_id": "grid-power",
+          "system_name": "Power Grid",
+          "state": "failed",
+          "time_minutes": 0.0,
+          "timestamp": "2026-10-03T22:45:26.413933Z"
+        },
+        "delta_minutes": 0.0,
+        "model_gap": null
+      },
+      {
+        "type": "timing_mismatch",
+        "system_id": "patient-records",
+        "system_name": "Patient Records",
+        "expected": {
+          "system_id": "patient-records",
+          "status": "failed",
+          "time_minutes": 123.0,
+          "caused_by": "authentication",
+          "dependency_type": "identity"
+        },
+        "observed": {
+          "system_id": "patient-records",
+          "system_name": "Patient Records",
+          "state": "failed",
+          "time_minutes": 0.17,
+          "timestamp": "2026-10-03T22:45:36.358155Z"
+        },
+        "delta_minutes": -122.83,
+        "model_gap": "Observed timing/state differed from the model. Review delay, dependency, redundancy, or capacity assumptions."
+      }
+    ],
+    "method": {
+      "prediction": "FRACTRA deterministic engine using immutable incident-start model snapshot",
+      "reality": "human-confirmed failed/degraded observations",
+      "timing_tolerance_minutes": 1.0
+    }
+  },
+  "observations": [
+    {
+      "id": "obs-9d93569c282b",
+      "timestamp": "2026-10-03T22:45:26.413933Z",
+      "system_id": "grid-power",
+      "system_name": "Power Grid",
+      "state": "failed",
+      "note": "",
+      "source": "human_confirmed"
+    },
+    {
+      "id": "obs-12314f80e70b",
+      "timestamp": "2026-10-03T22:45:36.358155Z",
+      "system_id": "patient-records",
+      "system_name": "Patient Records",
+      "state": "failed",
+      "note": "",
+      "source": "human_confirmed"
+    }
+  ],
+  "actions": [],
+  "gap_reviews": {
+    "1": {
+      "status": "reviewed",
+      "reviewed_at": "2026-10-03T22:46:05.257247Z",
+      "analysis": {
+        "explanation": "The observed timing mismatch between the Patient Records system and the model suggests a potential issue with the dependency assumptions. Specifically, the delay minutes for the authentication dependency to the Patient Records system may need review.",
+        "hypotheses": [
+          {
+            "title": "Review authentication dependency delay minutes",
+            "reason": "The observed timing mismatch may be due to an overly optimistic delay assumption for the authentication dependency to the Patient Records system."
+          }
+        ],
+        "proposed_changes": [
+          {
+            "id": "proposal-6f3b2eebf9",
+            "title": "Test the modeled dependency timing",
+            "reason": "Reality differed from the prediction for patient-records. Test the existing authentication \u2192 patient-records delay assumption without treating it as a proven cause.",
+            "change": {
+              "kind": "dependency_field",
+              "source": "authentication",
+              "target": "patient-records",
+              "field": "delay_minutes",
+              "value": 0
+            },
+            "constructed_by": "fractra_deterministic_review"
+          }
+        ]
+      },
+      "decisions": [
+        {
+          "proposal_id": "proposal-6f3b2eebf9",
+          "decision": "accepted",
+          "change": {
+            "field": "delay_minutes",
+            "kind": "dependency_field",
+            "source": "authentication",
+            "target": "patient-records",
+            "value": 0
+          },
+          "decided_at": "2026-10-03T22:46:12.654609Z",
+          "source": "human_review"
+        }
+      ],
+      "grounding": "validated_against_incident_start_model"
+    }
+  },
+  "approved_model_branch": {
+    "id": "st-aurelia-reality-v1-056f",
+    "parent_model_id": "st-aurelia-reality-66060b-27e7",
+    "version": 1,
+    "created_at": "2026-10-03T22:46:44.489961Z"
+  },
+  "counterfactual_replay": {
+    "status": "ready",
+    "generated_at": "2026-10-03T22:46:49.223234Z",
+    "method": "deterministic_counterfactual",
+    "incident_id": "inc-052e9766060b",
+    "incident_name": "Hospital power outage",
+    "trigger_system_id": "grid-power",
+    "trigger_system_name": "Power Grid",
+    "baseline_model_id": "st-aurelia",
+    "counterfactual_model_id": "st-aurelia-reality-v1-056f",
+    "basis": "The same confirmed initiating disruption is replayed against the immutable incident-start model and the human-approved reality-calibrated branch.",
+    "actual_observations": [
+      {
+        "system_id": "grid-power",
+        "system_name": "Power Grid",
+        "state": "failed",
+        "recorded_time_minutes": 0.0
+      },
+      {
+        "system_id": "patient-records",
+        "system_name": "Patient Records",
+        "state": "failed",
+        "recorded_time_minutes": 0.17
+      }
+    ],
+    "baseline": {
+      "resilience_score": 44,
+      "metrics": {
+        "failed_systems": 5,
+        "degraded_systems": 2,
+        "stable_systems": 4,
+        "cascade_events": 7,
+        "cascade_duration_minutes": 123
+      },
+      "events": [
+        {
+          "time_minutes": 0,
+          "system": "grid-power",
+          "status": "failed",
+          "caused_by": null,
+          "dependency_type": null,
+          "reason": "Initial disruption"
+        },
+        {
+          "time_minutes": 0,
+          "system": "backup-generator",
+          "status": "activated",
+          "caused_by": "grid-power",
+          "dependency_type": "redundancy",
+          "reason": "Activated as backup provider for network"
+        },
+        {
+          "time_minutes": 120,
+          "system": "backup-generator",
+          "status": "failed",
+          "caused_by": "network",
+          "dependency_type": "capacity",
+          "reason": "Maximum backup runtime exhausted"
+        },
+        {
+          "time_minutes": 121,
+          "system": "network",
+          "status": "failed",
+          "caused_by": "backup-generator",
+          "dependency_type": "power",
+          "reason": "Dependency on backup-generator was lost"
+        },
+        {
+          "time_minutes": 122,
+          "system": "authentication",
+          "status": "failed",
+          "caused_by": "network",
+          "dependency_type": "network",
+          "reason": "Dependency on network was lost"
+        },
+        {
+          "time_minutes": 123,
+          "system": "patient-records",
+          "status": "failed",
+          "caused_by": "authentication",
+          "dependency_type": "identity",
+          "reason": "Dependency on authentication was lost"
+        },
+        {
+          "time_minutes": 123,
+          "system": "pharmacy",
+          "status": "degraded",
+          "caused_by": "authentication",
+          "dependency_type": "identity",
+          "reason": "Dependency on authentication was lost"
+        },
+        {
+          "time_minutes": 123,
+          "system": "emergency",
+          "status": "degraded",
+          "caused_by": "authentication",
+          "dependency_type": "identity",
+          "reason": "Dependency on authentication was lost"
+        }
+      ]
+    },
+    "counterfactual": {
+      "resilience_score": 44,
+      "metrics": {
+        "failed_systems": 5,
+        "degraded_systems": 2,
+        "stable_systems": 4,
+        "cascade_events": 7,
+        "cascade_duration_minutes": 123
+      },
+      "events": [
+        {
+          "time_minutes": 0,
+          "system": "grid-power",
+          "status": "failed",
+          "caused_by": null,
+          "dependency_type": null,
+          "reason": "Initial disruption"
+        },
+        {
+          "time_minutes": 0,
+          "system": "backup-generator",
+          "status": "activated",
+          "caused_by": "grid-power",
+          "dependency_type": "redundancy",
+          "reason": "Activated as backup provider for network"
+        },
+        {
+          "time_minutes": 0,
+          "system": "patient-records",
+          "status": "failed",
+          "caused_by": "grid-power",
+          "dependency_type": "service",
+          "reason": "Dependency on grid-power was lost"
+        },
+        {
+          "time_minutes": 120,
+          "system": "backup-generator",
+          "status": "failed",
+          "caused_by": "network",
+          "dependency_type": "capacity",
+          "reason": "Maximum backup runtime exhausted"
+        },
+        {
+          "time_minutes": 121,
+          "system": "network",
+          "status": "failed",
+          "caused_by": "backup-generator",
+          "dependency_type": "power",
+          "reason": "Dependency on backup-generator was lost"
+        },
+        {
+          "time_minutes": 122,
+          "system": "authentication",
+          "status": "failed",
+          "caused_by": "network",
+          "dependency_type": "network",
+          "reason": "Dependency on network was lost"
+        },
+        {
+          "time_minutes": 123,
+          "system": "pharmacy",
+          "status": "degraded",
+          "caused_by": "authentication",
+          "dependency_type": "identity",
+          "reason": "Dependency on authentication was lost"
+        },
+        {
+          "time_minutes": 123,
+          "system": "emergency",
+          "status": "degraded",
+          "caused_by": "authentication",
+          "dependency_type": "identity",
+          "reason": "Dependency on authentication was lost"
+        }
+      ]
+    },
+    "comparison": {
+      "resilience_score_change": 0,
+      "failed_change": 0,
+      "degraded_change": 0,
+      "cascade_events_change": 0
+    },
+    "systems": [
+      {
+        "system_id": "authentication",
+        "system_name": "Authentication Service",
+        "baseline": {
+          "system_id": "authentication",
+          "status": "failed",
+          "time_minutes": 122.0
+        },
+        "counterfactual": {
+          "system_id": "authentication",
+          "status": "failed",
+          "time_minutes": 122.0
+        },
+        "time_change_minutes": 0.0,
+        "outcome": "unchanged"
+      },
+      {
+        "system_id": "backup-generator",
+        "system_name": "Backup Generator",
+        "baseline": {
+          "system_id": "backup-generator",
+          "status": "failed",
+          "time_minutes": 120.0
+        },
+        "counterfactual": {
+          "system_id": "backup-generator",
+          "status": "failed",
+          "time_minutes": 120.0
+        },
+        "time_change_minutes": 0.0,
+        "outcome": "unchanged"
+      },
+      {
+        "system_id": "emergency",
+        "system_name": "Emergency Department",
+        "baseline": {
+          "system_id": "emergency",
+          "status": "degraded",
+          "time_minutes": 123.0
+        },
+        "counterfactual": {
+          "system_id": "emergency",
+          "status": "degraded",
+          "time_minutes": 123.0
+        },
+        "time_change_minutes": 0.0,
+        "outcome": "unchanged"
+      },
+      {
+        "system_id": "grid-power",
+        "system_name": "Power Grid",
+        "baseline": {
+          "system_id": "grid-power",
+          "status": "failed",
+          "time_minutes": 0.0
+        },
+        "counterfactual": {
+          "system_id": "grid-power",
+          "status": "failed",
+          "time_minutes": 0.0
+        },
+        "time_change_minutes": 0.0,
+        "outcome": "unchanged"
+      },
+      {
+        "system_id": "network",
+        "system_name": "Network",
+        "baseline": {
+          "system_id": "network",
+          "status": "failed",
+          "time_minutes": 121.0
+        },
+        "counterfactual": {
+          "system_id": "network",
+          "status": "failed",
+          "time_minutes": 121.0
+        },
+        "time_change_minutes": 0.0,
+        "outcome": "unchanged"
+      },
+      {
+        "system_id": "patient-records",
+        "system_name": "Patient Records",
+        "baseline": {
+          "system_id": "patient-records",
+          "status": "failed",
+          "time_minutes": 123.0
+        },
+        "counterfactual": {
+          "system_id": "patient-records",
+          "status": "failed",
+          "time_minutes": 0.0
+        },
+        "time_change_minutes": -123.0,
+        "outcome": "earlier"
+      },
+      {
+        "system_id": "pharmacy",
+        "system_name": "Pharmacy",
+        "baseline": {
+          "system_id": "pharmacy",
+          "status": "degraded",
+          "time_minutes": 123.0
+        },
+        "counterfactual": {
+          "system_id": "pharmacy",
+          "status": "degraded",
+          "time_minutes": 123.0
+        },
+        "time_change_minutes": 0.0,
+        "outcome": "unchanged"
+      }
+    ],
+    "calibration": {
+      "verdict": "sufficient",
+      "tolerance_minutes": 1.0,
+      "confirmed_observations_checked": 2,
+      "comparable_observations": 2,
+      "observations_improved": 1,
+      "items": [
+        {
+          "system_id": "grid-power",
+          "system_name": "Power Grid",
+          "observed_recorded_time_minutes": 0.0,
+          "baseline_time_error_minutes": 0.0,
+          "counterfactual_time_error_minutes": 0.0,
+          "error_reduction_minutes": 0.0,
+          "counterfactual_state": "failed",
+          "observed_state": "failed"
+        },
+        {
+          "system_id": "patient-records",
+          "system_name": "Patient Records",
+          "observed_recorded_time_minutes": 0.17,
+          "baseline_time_error_minutes": 122.83,
+          "counterfactual_time_error_minutes": 0.17,
+          "error_reduction_minutes": 122.66,
+          "counterfactual_state": "failed",
+          "observed_state": "failed"
+        }
+      ],
+      "meaning": "This verdict measures how closely the calibrated model reproduces the recorded incident observations. It is not a claim that the organisation is safe or that the model is proven correct."
+    },
+    "interpretation": "Counterfactual model result only. This does not claim what would happen in the real world."
+  },
+  "calibration_history": [
+    {
+      "version": 1,
+      "model_id": "st-aurelia-reality-v1-056f",
+      "parent_model_id": "st-aurelia-reality-66060b-27e7",
+      "created_at": "2026-10-03T22:46:44.489961Z",
+      "change": {
+        "delay_minutes": 0,
+        "failure_effect": "failed",
+        "kind": "add_dependency",
+        "source": "grid-power",
+        "target": "patient-records",
+        "type": "service"
+      },
+      "source_replay_generated_at": "2026-10-03T22:46:25.253882Z"
+    }
+  ],
+  "mitigation_tests": [
+    {
+      "id": "mitigation-result-6bd7edf649",
+      "tested_at": "2026-10-03T23:01:02.616054Z",
+      "changes": [
+        {
+          "field": "requirement_group",
+          "kind": "dependency_field",
+          "source": "authentication",
+          "target": "patient-records",
+          "value": "patient-records-resilience"
+        },
+        {
+          "field": "requirement_group",
+          "kind": "dependency_field",
+          "source": "grid-power",
+          "target": "patient-records",
+          "value": "patient-records-resilience"
+        },
+        {
+          "delay_minutes": 0,
+          "failure_effect": "failed",
+          "kind": "add_dependency",
+          "requirement_group": "patient-records-resilience",
+          "source": "fuel-supply",
+          "target": "patient-records",
+          "type": "service"
+        }
+      ],
+      "baseline_model_id": "st-aurelia-reality-v1-056f",
+      "trigger_system_id": "grid-power",
+      "before": {
+        "resilience_score": 44,
+        "metrics": {
+          "failed_systems": 5,
+          "degraded_systems": 2,
+          "stable_systems": 4,
+          "cascade_events": 7,
+          "cascade_duration_minutes": 123
+        },
+        "events": [
+          {
+            "time_minutes": 0,
+            "system": "grid-power",
+            "status": "failed",
+            "caused_by": null,
+            "dependency_type": null,
+            "reason": "Initial disruption"
+          },
+          {
+            "time_minutes": 0,
+            "system": "backup-generator",
+            "status": "activated",
+            "caused_by": "grid-power",
+            "dependency_type": "redundancy",
+            "reason": "Activated as backup provider for network"
+          },
+          {
+            "time_minutes": 0,
+            "system": "patient-records",
+            "status": "failed",
+            "caused_by": "grid-power",
+            "dependency_type": "service",
+            "reason": "Dependency on grid-power was lost"
+          },
+          {
+            "time_minutes": 120,
+            "system": "backup-generator",
+            "status": "failed",
+            "caused_by": "network",
+            "dependency_type": "capacity",
+            "reason": "Maximum backup runtime exhausted"
+          },
+          {
+            "time_minutes": 121,
+            "system": "network",
+            "status": "failed",
+            "caused_by": "backup-generator",
+            "dependency_type": "power",
+            "reason": "Dependency on backup-generator was lost"
+          },
+          {
+            "time_minutes": 122,
+            "system": "authentication",
+            "status": "failed",
+            "caused_by": "network",
+            "dependency_type": "network",
+            "reason": "Dependency on network was lost"
+          },
+          {
+            "time_minutes": 123,
+            "system": "pharmacy",
+            "status": "degraded",
+            "caused_by": "authentication",
+            "dependency_type": "identity",
+            "reason": "Dependency on authentication was lost"
+          },
+          {
+            "time_minutes": 123,
+            "system": "emergency",
+            "status": "degraded",
+            "caused_by": "authentication",
+            "dependency_type": "identity",
+            "reason": "Dependency on authentication was lost"
+          }
+        ]
+      },
+      "after": {
+        "resilience_score": 54,
+        "metrics": {
+          "failed_systems": 4,
+          "degraded_systems": 2,
+          "stable_systems": 5,
+          "cascade_events": 6,
+          "cascade_duration_minutes": 123
+        },
+        "events": [
+          {
+            "time_minutes": 0,
+            "system": "grid-power",
+            "status": "failed",
+            "caused_by": null,
+            "dependency_type": null,
+            "reason": "Initial disruption"
+          },
+          {
+            "time_minutes": 0,
+            "system": "backup-generator",
+            "status": "activated",
+            "caused_by": "grid-power",
+            "dependency_type": "redundancy",
+            "reason": "Activated as backup provider for network"
+          },
+          {
+            "time_minutes": 120,
+            "system": "backup-generator",
+            "status": "failed",
+            "caused_by": "network",
+            "dependency_type": "capacity",
+            "reason": "Maximum backup runtime exhausted"
+          },
+          {
+            "time_minutes": 121,
+            "system": "network",
+            "status": "failed",
+            "caused_by": "backup-generator",
+            "dependency_type": "power",
+            "reason": "Dependency on backup-generator was lost"
+          },
+          {
+            "time_minutes": 122,
+            "system": "authentication",
+            "status": "failed",
+            "caused_by": "network",
+            "dependency_type": "network",
+            "reason": "Dependency on network was lost"
+          },
+          {
+            "time_minutes": 123,
+            "system": "pharmacy",
+            "status": "degraded",
+            "caused_by": "authentication",
+            "dependency_type": "identity",
+            "reason": "Dependency on authentication was lost"
+          },
+          {
+            "time_minutes": 123,
+            "system": "emergency",
+            "status": "degraded",
+            "caused_by": "authentication",
+            "dependency_type": "identity",
+            "reason": "Dependency on authentication was lost"
+          }
+        ]
+      },
+      "comparison": {
+        "resilience_score_change": 10,
+        "failed_systems_change": -1,
+        "degraded_systems_change": 0,
+        "duration_change_minutes": 0
+      },
+      "verdict": "improved",
+      "meaning": "This verdict compares deterministic model outcomes only. A positive result is evidence that the proposed model change improves this simulated scenario, not proof of real-world effectiveness."
+    },
+    {
+      "id": "mitigation-result-52efdf93ca",
+      "tested_at": "2026-10-03T23:01:37.644834Z",
+      "changes": [
+        {
+          "field": "max_runtime_minutes",
+          "kind": "system_field",
+          "system_id": "backup-generator",
+          "value": 180
+        }
+      ],
+      "baseline_model_id": "st-aurelia-reality-v1-056f",
+      "trigger_system_id": "grid-power",
+      "before": {
+        "resilience_score": 44,
+        "metrics": {
+          "failed_systems": 5,
+          "degraded_systems": 2,
+          "stable_systems": 4,
+          "cascade_events": 7,
+          "cascade_duration_minutes": 123
+        },
+        "events": [
+          {
+            "time_minutes": 0,
+            "system": "grid-power",
+            "status": "failed",
+            "caused_by": null,
+            "dependency_type": null,
+            "reason": "Initial disruption"
+          },
+          {
+            "time_minutes": 0,
+            "system": "backup-generator",
+            "status": "activated",
+            "caused_by": "grid-power",
+            "dependency_type": "redundancy",
+            "reason": "Activated as backup provider for network"
+          },
+          {
+            "time_minutes": 0,
+            "system": "patient-records",
+            "status": "failed",
+            "caused_by": "grid-power",
+            "dependency_type": "service",
+            "reason": "Dependency on grid-power was lost"
+          },
+          {
+            "time_minutes": 120,
+            "system": "backup-generator",
+            "status": "failed",
+            "caused_by": "network",
+            "dependency_type": "capacity",
+            "reason": "Maximum backup runtime exhausted"
+          },
+          {
+            "time_minutes": 121,
+            "system": "network",
+            "status": "failed",
+            "caused_by": "backup-generator",
+            "dependency_type": "power",
+            "reason": "Dependency on backup-generator was lost"
+          },
+          {
+            "time_minutes": 122,
+            "system": "authentication",
+            "status": "failed",
+            "caused_by": "network",
+            "dependency_type": "network",
+            "reason": "Dependency on network was lost"
+          },
+          {
+            "time_minutes": 123,
+            "system": "pharmacy",
+            "status": "degraded",
+            "caused_by": "authentication",
+            "dependency_type": "identity",
+            "reason": "Dependency on authentication was lost"
+          },
+          {
+            "time_minutes": 123,
+            "system": "emergency",
+            "status": "degraded",
+            "caused_by": "authentication",
+            "dependency_type": "identity",
+            "reason": "Dependency on authentication was lost"
+          }
+        ]
+      },
+      "after": {
+        "resilience_score": 44,
+        "metrics": {
+          "failed_systems": 5,
+          "degraded_systems": 2,
+          "stable_systems": 4,
+          "cascade_events": 7,
+          "cascade_duration_minutes": 183
+        },
+        "events": [
+          {
+            "time_minutes": 0,
+            "system": "grid-power",
+            "status": "failed",
+            "caused_by": null,
+            "dependency_type": null,
+            "reason": "Initial disruption"
+          },
+          {
+            "time_minutes": 0,
+            "system": "backup-generator",
+            "status": "activated",
+            "caused_by": "grid-power",
+            "dependency_type": "redundancy",
+            "reason": "Activated as backup provider for network"
+          },
+          {
+            "time_minutes": 0,
+            "system": "patient-records",
+            "status": "failed",
+            "caused_by": "grid-power",
+            "dependency_type": "service",
+            "reason": "Dependency on grid-power was lost"
+          },
+          {
+            "time_minutes": 180,
+            "system": "backup-generator",
+            "status": "failed",
+            "caused_by": "network",
+            "dependency_type": "capacity",
+            "reason": "Maximum backup runtime exhausted"
+          },
+          {
+            "time_minutes": 181,
+            "system": "network",
+            "status": "failed",
+            "caused_by": "backup-generator",
+            "dependency_type": "power",
+            "reason": "Dependency on backup-generator was lost"
+          },
+          {
+            "time_minutes": 182,
+            "system": "authentication",
+            "status": "failed",
+            "caused_by": "network",
+            "dependency_type": "network",
+            "reason": "Dependency on network was lost"
+          },
+          {
+            "time_minutes": 183,
+            "system": "pharmacy",
+            "status": "degraded",
+            "caused_by": "authentication",
+            "dependency_type": "identity",
+            "reason": "Dependency on authentication was lost"
+          },
+          {
+            "time_minutes": 183,
+            "system": "emergency",
+            "status": "degraded",
+            "caused_by": "authentication",
+            "dependency_type": "identity",
+            "reason": "Dependency on authentication was lost"
+          }
+        ]
+      },
+      "comparison": {
+        "resilience_score_change": 0,
+        "failed_systems_change": 0,
+        "degraded_systems_change": 0,
+        "duration_change_minutes": 0
+      },
+      "verdict": "no_measured_improvement",
+      "meaning": "This verdict compares deterministic model outcomes only. A positive result is evidence that the proposed model change improves this simulated scenario, not proof of real-world effectiveness."
+    },
+    {
+      "id": "mitigation-result-c098e08b2d",
+      "tested_at": "2026-10-03T23:01:39.328271Z",
+      "changes": [
+        {
+          "field": "max_runtime_minutes",
+          "kind": "system_field",
+          "system_id": "backup-generator",
+          "value": 180
+        }
+      ],
+      "baseline_model_id": "st-aurelia-reality-v1-056f",
+      "trigger_system_id": "grid-power",
+      "before": {
+        "resilience_score": 44,
+        "metrics": {
+          "failed_systems": 5,
+          "degraded_systems": 2,
+          "stable_systems": 4,
+          "cascade_events": 7,
+          "cascade_duration_minutes": 123
+        },
+        "events": [
+          {
+            "time_minutes": 0,
+            "system": "grid-power",
+            "status": "failed",
+            "caused_by": null,
+            "dependency_type": null,
+            "reason": "Initial disruption"
+          },
+          {
+            "time_minutes": 0,
+            "system": "backup-generator",
+            "status": "activated",
+            "caused_by": "grid-power",
+            "dependency_type": "redundancy",
+            "reason": "Activated as backup provider for network"
+          },
+          {
+            "time_minutes": 0,
+            "system": "patient-records",
+            "status": "failed",
+            "caused_by": "grid-power",
+            "dependency_type": "service",
+            "reason": "Dependency on grid-power was lost"
+          },
+          {
+            "time_minutes": 120,
+            "system": "backup-generator",
+            "status": "failed",
+            "caused_by": "network",
+            "dependency_type": "capacity",
+            "reason": "Maximum backup runtime exhausted"
+          },
+          {
+            "time_minutes": 121,
+            "system": "network",
+            "status": "failed",
+            "caused_by": "backup-generator",
+            "dependency_type": "power",
+            "reason": "Dependency on backup-generator was lost"
+          },
+          {
+            "time_minutes": 122,
+            "system": "authentication",
+            "status": "failed",
+            "caused_by": "network",
+            "dependency_type": "network",
+            "reason": "Dependency on network was lost"
+          },
+          {
+            "time_minutes": 123,
+            "system": "pharmacy",
+            "status": "degraded",
+            "caused_by": "authentication",
+            "dependency_type": "identity",
+            "reason": "Dependency on authentication was lost"
+          },
+          {
+            "time_minutes": 123,
+            "system": "emergency",
+            "status": "degraded",
+            "caused_by": "authentication",
+            "dependency_type": "identity",
+            "reason": "Dependency on authentication was lost"
+          }
+        ]
+      },
+      "after": {
+        "resilience_score": 44,
+        "metrics": {
+          "failed_systems": 5,
+          "degraded_systems": 2,
+          "stable_systems": 4,
+          "cascade_events": 7,
+          "cascade_duration_minutes": 183
+        },
+        "events": [
+          {
+            "time_minutes": 0,
+            "system": "grid-power",
+            "status": "failed",
+            "caused_by": null,
+            "dependency_type": null,
+            "reason": "Initial disruption"
+          },
+          {
+            "time_minutes": 0,
+            "system": "backup-generator",
+            "status": "activated",
+            "caused_by": "grid-power",
+            "dependency_type": "redundancy",
+            "reason": "Activated as backup provider for network"
+          },
+          {
+            "time_minutes": 0,
+            "system": "patient-records",
+            "status": "failed",
+            "caused_by": "grid-power",
+            "dependency_type": "service",
+            "reason": "Dependency on grid-power was lost"
+          },
+          {
+            "time_minutes": 180,
+            "system": "backup-generator",
+            "status": "failed",
+            "caused_by": "network",
+            "dependency_type": "capacity",
+            "reason": "Maximum backup runtime exhausted"
+          },
+          {
+            "time_minutes": 181,
+            "system": "network",
+            "status": "failed",
+            "caused_by": "backup-generator",
+            "dependency_type": "power",
+            "reason": "Dependency on backup-generator was lost"
+          },
+          {
+            "time_minutes": 182,
+            "system": "authentication",
+            "status": "failed",
+            "caused_by": "network",
+            "dependency_type": "network",
+            "reason": "Dependency on network was lost"
+          },
+          {
+            "time_minutes": 183,
+            "system": "pharmacy",
+            "status": "degraded",
+            "caused_by": "authentication",
+            "dependency_type": "identity",
+            "reason": "Dependency on authentication was lost"
+          },
+          {
+            "time_minutes": 183,
+            "system": "emergency",
+            "status": "degraded",
+            "caused_by": "authentication",
+            "dependency_type": "identity",
+            "reason": "Dependency on authentication was lost"
+          }
+        ]
+      },
+      "comparison": {
+        "resilience_score_change": 0,
+        "failed_systems_change": 0,
+        "degraded_systems_change": 0,
+        "duration_change_minutes": 0
+      },
+      "verdict": "no_measured_improvement",
+      "meaning": "This verdict compares deterministic model outcomes only. A positive result is evidence that the proposed model change improves this simulated scenario, not proof of real-world effectiveness."
+    },
+    {
+      "id": "mitigation-result-47a1e37406",
+      "tested_at": "2026-10-03T23:01:42.515751Z",
+      "changes": [
+        {
+          "field": "max_runtime_minutes",
+          "kind": "system_field",
+          "system_id": "backup-generator",
+          "value": 180
+        }
+      ],
+      "baseline_model_id": "st-aurelia-reality-v1-056f",
+      "trigger_system_id": "grid-power",
+      "before": {
+        "resilience_score": 44,
+        "metrics": {
+          "failed_systems": 5,
+          "degraded_systems": 2,
+          "stable_systems": 4,
+          "cascade_events": 7,
+          "cascade_duration_minutes": 123
+        },
+        "events": [
+          {
+            "time_minutes": 0,
+            "system": "grid-power",
+            "status": "failed",
+            "caused_by": null,
+            "dependency_type": null,
+            "reason": "Initial disruption"
+          },
+          {
+            "time_minutes": 0,
+            "system": "backup-generator",
+            "status": "activated",
+            "caused_by": "grid-power",
+            "dependency_type": "redundancy",
+            "reason": "Activated as backup provider for network"
+          },
+          {
+            "time_minutes": 0,
+            "system": "patient-records",
+            "status": "failed",
+            "caused_by": "grid-power",
+            "dependency_type": "service",
+            "reason": "Dependency on grid-power was lost"
+          },
+          {
+            "time_minutes": 120,
+            "system": "backup-generator",
+            "status": "failed",
+            "caused_by": "network",
+            "dependency_type": "capacity",
+            "reason": "Maximum backup runtime exhausted"
+          },
+          {
+            "time_minutes": 121,
+            "system": "network",
+            "status": "failed",
+            "caused_by": "backup-generator",
+            "dependency_type": "power",
+            "reason": "Dependency on backup-generator was lost"
+          },
+          {
+            "time_minutes": 122,
+            "system": "authentication",
+            "status": "failed",
+            "caused_by": "network",
+            "dependency_type": "network",
+            "reason": "Dependency on network was lost"
+          },
+          {
+            "time_minutes": 123,
+            "system": "pharmacy",
+            "status": "degraded",
+            "caused_by": "authentication",
+            "dependency_type": "identity",
+            "reason": "Dependency on authentication was lost"
+          },
+          {
+            "time_minutes": 123,
+            "system": "emergency",
+            "status": "degraded",
+            "caused_by": "authentication",
+            "dependency_type": "identity",
+            "reason": "Dependency on authentication was lost"
+          }
+        ]
+      },
+      "after": {
+        "resilience_score": 44,
+        "metrics": {
+          "failed_systems": 5,
+          "degraded_systems": 2,
+          "stable_systems": 4,
+          "cascade_events": 7,
+          "cascade_duration_minutes": 183
+        },
+        "events": [
+          {
+            "time_minutes": 0,
+            "system": "grid-power",
+            "status": "failed",
+            "caused_by": null,
+            "dependency_type": null,
+            "reason": "Initial disruption"
+          },
+          {
+            "time_minutes": 0,
+            "system": "backup-generator",
+            "status": "activated",
+            "caused_by": "grid-power",
+            "dependency_type": "redundancy",
+            "reason": "Activated as backup provider for network"
+          },
+          {
+            "time_minutes": 0,
+            "system": "patient-records",
+            "status": "failed",
+            "caused_by": "grid-power",
+            "dependency_type": "service",
+            "reason": "Dependency on grid-power was lost"
+          },
+          {
+            "time_minutes": 180,
+            "system": "backup-generator",
+            "status": "failed",
+            "caused_by": "network",
+            "dependency_type": "capacity",
+            "reason": "Maximum backup runtime exhausted"
+          },
+          {
+            "time_minutes": 181,
+            "system": "network",
+            "status": "failed",
+            "caused_by": "backup-generator",
+            "dependency_type": "power",
+            "reason": "Dependency on backup-generator was lost"
+          },
+          {
+            "time_minutes": 182,
+            "system": "authentication",
+            "status": "failed",
+            "caused_by": "network",
+            "dependency_type": "network",
+            "reason": "Dependency on network was lost"
+          },
+          {
+            "time_minutes": 183,
+            "system": "pharmacy",
+            "status": "degraded",
+            "caused_by": "authentication",
+            "dependency_type": "identity",
+            "reason": "Dependency on authentication was lost"
+          },
+          {
+            "time_minutes": 183,
+            "system": "emergency",
+            "status": "degraded",
+            "caused_by": "authentication",
+            "dependency_type": "identity",
+            "reason": "Dependency on authentication was lost"
+          }
+        ]
+      },
+      "comparison": {
+        "resilience_score_change": 0,
+        "failed_systems_change": 0,
+        "degraded_systems_change": 0,
+        "duration_change_minutes": 0
+      },
+      "verdict": "no_measured_improvement",
+      "meaning": "This verdict compares deterministic model outcomes only. A positive result is evidence that the proposed model change improves this simulated scenario, not proof of real-world effectiveness."
+    },
+    {
+      "id": "mitigation-result-fade59322a",
+      "tested_at": "2026-10-03T23:11:35.226498Z",
+      "changes": [
+        {
+          "field": "max_runtime_minutes",
+          "kind": "system_field",
+          "system_id": "backup-generator",
+          "value": 180
+        }
+      ],
+      "baseline_model_id": "st-aurelia-reality-v1-056f",
+      "trigger_system_id": "grid-power",
+      "before": {
+        "resilience_score": 44,
+        "metrics": {
+          "failed_systems": 5,
+          "degraded_systems": 2,
+          "stable_systems": 4,
+          "cascade_events": 7,
+          "cascade_duration_minutes": 123
+        },
+        "events": [
+          {
+            "time_minutes": 0,
+            "system": "grid-power",
+            "status": "failed",
+            "caused_by": null,
+            "dependency_type": null,
+            "reason": "Initial disruption"
+          },
+          {
+            "time_minutes": 0,
+            "system": "backup-generator",
+            "status": "activated",
+            "caused_by": "grid-power",
+            "dependency_type": "redundancy",
+            "reason": "Activated as backup provider for network"
+          },
+          {
+            "time_minutes": 0,
+            "system": "patient-records",
+            "status": "failed",
+            "caused_by": "grid-power",
+            "dependency_type": "service",
+            "reason": "Dependency on grid-power was lost"
+          },
+          {
+            "time_minutes": 120,
+            "system": "backup-generator",
+            "status": "failed",
+            "caused_by": "network",
+            "dependency_type": "capacity",
+            "reason": "Maximum backup runtime exhausted"
+          },
+          {
+            "time_minutes": 121,
+            "system": "network",
+            "status": "failed",
+            "caused_by": "backup-generator",
+            "dependency_type": "power",
+            "reason": "Dependency on backup-generator was lost"
+          },
+          {
+            "time_minutes": 122,
+            "system": "authentication",
+            "status": "failed",
+            "caused_by": "network",
+            "dependency_type": "network",
+            "reason": "Dependency on network was lost"
+          },
+          {
+            "time_minutes": 123,
+            "system": "pharmacy",
+            "status": "degraded",
+            "caused_by": "authentication",
+            "dependency_type": "identity",
+            "reason": "Dependency on authentication was lost"
+          },
+          {
+            "time_minutes": 123,
+            "system": "emergency",
+            "status": "degraded",
+            "caused_by": "authentication",
+            "dependency_type": "identity",
+            "reason": "Dependency on authentication was lost"
+          }
+        ]
+      },
+      "after": {
+        "resilience_score": 44,
+        "metrics": {
+          "failed_systems": 5,
+          "degraded_systems": 2,
+          "stable_systems": 4,
+          "cascade_events": 7,
+          "cascade_duration_minutes": 183
+        },
+        "events": [
+          {
+            "time_minutes": 0,
+            "system": "grid-power",
+            "status": "failed",
+            "caused_by": null,
+            "dependency_type": null,
+            "reason": "Initial disruption"
+          },
+          {
+            "time_minutes": 0,
+            "system": "backup-generator",
+            "status": "activated",
+            "caused_by": "grid-power",
+            "dependency_type": "redundancy",
+            "reason": "Activated as backup provider for network"
+          },
+          {
+            "time_minutes": 0,
+            "system": "patient-records",
+            "status": "failed",
+            "caused_by": "grid-power",
+            "dependency_type": "service",
+            "reason": "Dependency on grid-power was lost"
+          },
+          {
+            "time_minutes": 180,
+            "system": "backup-generator",
+            "status": "failed",
+            "caused_by": "network",
+            "dependency_type": "capacity",
+            "reason": "Maximum backup runtime exhausted"
+          },
+          {
+            "time_minutes": 181,
+            "system": "network",
+            "status": "failed",
+            "caused_by": "backup-generator",
+            "dependency_type": "power",
+            "reason": "Dependency on backup-generator was lost"
+          },
+          {
+            "time_minutes": 182,
+            "system": "authentication",
+            "status": "failed",
+            "caused_by": "network",
+            "dependency_type": "network",
+            "reason": "Dependency on network was lost"
+          },
+          {
+            "time_minutes": 183,
+            "system": "pharmacy",
+            "status": "degraded",
+            "caused_by": "authentication",
+            "dependency_type": "identity",
+            "reason": "Dependency on authentication was lost"
+          },
+          {
+            "time_minutes": 183,
+            "system": "emergency",
+            "status": "degraded",
+            "caused_by": "authentication",
+            "dependency_type": "identity",
+            "reason": "Dependency on authentication was lost"
+          }
+        ]
+      },
+      "comparison": {
+        "resilience_score_change": 0,
+        "failed_systems_change": 0,
+        "degraded_systems_change": 0,
+        "duration_change_minutes": 0
+      },
+      "response_window": {
+        "systems": [],
+        "max_minutes_bought": 0,
+        "min_positive_minutes_bought": 0,
+        "systems_with_more_time": 0
+      },
+      "verdict": "no_measured_improvement",
+      "meaning": "Outcome improvement means fewer/worse final impacts or a higher final resilience score. Response-window improvement means the final modeled damage may be unchanged, but the deterministic cascade reaches affected systems later. Neither is proof of real-world effectiveness."
+    },
+    {
+      "id": "mitigation-result-ae26a637d7",
+      "tested_at": "2026-10-03T23:16:23.370554Z",
+      "changes": [
+        {
+          "field": "max_runtime_minutes",
+          "kind": "system_field",
+          "system_id": "backup-generator",
+          "value": 180
+        }
+      ],
+      "baseline_model_id": "st-aurelia-reality-v1-056f",
+      "trigger_system_id": "grid-power",
+      "before": {
+        "resilience_score": 44,
+        "metrics": {
+          "failed_systems": 5,
+          "degraded_systems": 2,
+          "stable_systems": 4,
+          "cascade_events": 7,
+          "cascade_duration_minutes": 123
+        },
+        "events": [
+          {
+            "time_minutes": 0,
+            "system": "grid-power",
+            "status": "failed",
+            "caused_by": null,
+            "dependency_type": null,
+            "reason": "Initial disruption"
+          },
+          {
+            "time_minutes": 0,
+            "system": "backup-generator",
+            "status": "activated",
+            "caused_by": "grid-power",
+            "dependency_type": "redundancy",
+            "reason": "Activated as backup provider for network"
+          },
+          {
+            "time_minutes": 0,
+            "system": "patient-records",
+            "status": "failed",
+            "caused_by": "grid-power",
+            "dependency_type": "service",
+            "reason": "Dependency on grid-power was lost"
+          },
+          {
+            "time_minutes": 120,
+            "system": "backup-generator",
+            "status": "failed",
+            "caused_by": "network",
+            "dependency_type": "capacity",
+            "reason": "Maximum backup runtime exhausted"
+          },
+          {
+            "time_minutes": 121,
+            "system": "network",
+            "status": "failed",
+            "caused_by": "backup-generator",
+            "dependency_type": "power",
+            "reason": "Dependency on backup-generator was lost"
+          },
+          {
+            "time_minutes": 122,
+            "system": "authentication",
+            "status": "failed",
+            "caused_by": "network",
+            "dependency_type": "network",
+            "reason": "Dependency on network was lost"
+          },
+          {
+            "time_minutes": 123,
+            "system": "pharmacy",
+            "status": "degraded",
+            "caused_by": "authentication",
+            "dependency_type": "identity",
+            "reason": "Dependency on authentication was lost"
+          },
+          {
+            "time_minutes": 123,
+            "system": "emergency",
+            "status": "degraded",
+            "caused_by": "authentication",
+            "dependency_type": "identity",
+            "reason": "Dependency on authentication was lost"
+          }
+        ]
+      },
+      "after": {
+        "resilience_score": 44,
+        "metrics": {
+          "failed_systems": 5,
+          "degraded_systems": 2,
+          "stable_systems": 4,
+          "cascade_events": 7,
+          "cascade_duration_minutes": 183
+        },
+        "events": [
+          {
+            "time_minutes": 0,
+            "system": "grid-power",
+            "status": "failed",
+            "caused_by": null,
+            "dependency_type": null,
+            "reason": "Initial disruption"
+          },
+          {
+            "time_minutes": 0,
+            "system": "backup-generator",
+            "status": "activated",
+            "caused_by": "grid-power",
+            "dependency_type": "redundancy",
+            "reason": "Activated as backup provider for network"
+          },
+          {
+            "time_minutes": 0,
+            "system": "patient-records",
+            "status": "failed",
+            "caused_by": "grid-power",
+            "dependency_type": "service",
+            "reason": "Dependency on grid-power was lost"
+          },
+          {
+            "time_minutes": 180,
+            "system": "backup-generator",
+            "status": "failed",
+            "caused_by": "network",
+            "dependency_type": "capacity",
+            "reason": "Maximum backup runtime exhausted"
+          },
+          {
+            "time_minutes": 181,
+            "system": "network",
+            "status": "failed",
+            "caused_by": "backup-generator",
+            "dependency_type": "power",
+            "reason": "Dependency on backup-generator was lost"
+          },
+          {
+            "time_minutes": 182,
+            "system": "authentication",
+            "status": "failed",
+            "caused_by": "network",
+            "dependency_type": "network",
+            "reason": "Dependency on network was lost"
+          },
+          {
+            "time_minutes": 183,
+            "system": "pharmacy",
+            "status": "degraded",
+            "caused_by": "authentication",
+            "dependency_type": "identity",
+            "reason": "Dependency on authentication was lost"
+          },
+          {
+            "time_minutes": 183,
+            "system": "emergency",
+            "status": "degraded",
+            "caused_by": "authentication",
+            "dependency_type": "identity",
+            "reason": "Dependency on authentication was lost"
+          }
+        ]
+      },
+      "comparison": {
+        "resilience_score_change": 0,
+        "failed_systems_change": 0,
+        "degraded_systems_change": 0,
+        "duration_change_minutes": 0
+      },
+      "response_window": {
+        "systems": [
+          {
+            "system_id": "backup-generator",
+            "before_minutes": 120.0,
+            "after_minutes": 180.0,
+            "minutes_bought": 60.0,
+            "status_before": "failed",
+            "status_after": "failed"
+          },
+          {
+            "system_id": "network",
+            "before_minutes": 121.0,
+            "after_minutes": 181.0,
+            "minutes_bought": 60.0,
+            "status_before": "failed",
+            "status_after": "failed"
+          },
+          {
+            "system_id": "authentication",
+            "before_minutes": 122.0,
+            "after_minutes": 182.0,
+            "minutes_bought": 60.0,
+            "status_before": "failed",
+            "status_after": "failed"
+          },
+          {
+            "system_id": "pharmacy",
+            "before_minutes": 123.0,
+            "after_minutes": 183.0,
+            "minutes_bought": 60.0,
+            "status_before": "degraded",
+            "status_after": "degraded"
+          },
+          {
+            "system_id": "emergency",
+            "before_minutes": 123.0,
+            "after_minutes": 183.0,
+            "minutes_bought": 60.0,
+            "status_before": "degraded",
+            "status_after": "degraded"
+          }
+        ],
+        "max_minutes_bought": 60.0,
+        "min_positive_minutes_bought": 60.0,
+        "systems_with_more_time": 5
+      },
+      "verdict": "response_window_improved",
+      "meaning": "Outcome improvement means fewer/worse final impacts or a higher final resilience score. Response-window improvement means the final modeled damage may be unchanged, but the deterministic cascade reaches affected systems later. Neither is proof of real-world effectiveness."
+    }
+  ],
+  "resilience_improvements": [
+    {
+      "model_id": "st-aurelia-reality-v1-056f-resilience-ec07",
+      "parent_model_id": "st-aurelia-reality-v1-056f",
+      "created_at": "2026-10-03T23:17:34.648204Z",
+      "result_id": "mitigation-result-ae26a637d7",
+      "changes": [
+        {
+          "field": "max_runtime_minutes",
+          "kind": "system_field",
+          "system_id": "backup-generator",
+          "value": 180
+        }
+      ],
+      "measured_comparison": {
+        "resilience_score_change": 0,
+        "failed_systems_change": 0,
+        "degraded_systems_change": 0,
+        "duration_change_minutes": 0
+      }
+    }
+  ],
+  "improved_resilience_branch": {
+    "model_id": "st-aurelia-reality-v1-056f-resilience-ec07",
+    "parent_model_id": "st-aurelia-reality-v1-056f",
+    "created_at": "2026-10-03T23:17:34.648204Z",
+    "result_id": "mitigation-result-ae26a637d7",
+    "changes": [
+      {
+        "field": "max_runtime_minutes",
+        "kind": "system_field",
+        "system_id": "backup-generator",
+        "value": 180
+      }
+    ],
+    "measured_comparison": {
+      "resilience_score_change": 0,
+      "failed_systems_change": 0,
+      "degraded_systems_change": 0,
+      "duration_change_minutes": 0
+    }
+  },
+  "legacy_pre_clerk": true
+}
